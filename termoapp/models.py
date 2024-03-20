@@ -22,17 +22,13 @@ class BaseModel(models.Model):
     def __str__(self):
         return f"{self.__class__.__name__} {self.id}"
     
-class User(BaseModel):
-    username = models.CharField(max_length=100)
-    password = models.CharField(max_length=20)
+class Ranking(BaseModel):
+    user = models.OneToOneField(User, on_delete=models.PROTECT, null=True)
     ranking = models.IntegerField(null=True, blank=True)
 
     class Meta:
-        verbose_name = "User"
-        verbose_name_plural = "Users"
-        constraints = [
-            models.UniqueConstraint(fields=['username'], name='unique_username')
-        ]
+        verbose_name = "Ranking"
+        verbose_name_plural = "Rankings"
 
 class Word(BaseModel):
     word = models.CharField(max_length=5, validators=[MinLengthValidator(5)])
